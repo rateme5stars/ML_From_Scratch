@@ -1,3 +1,4 @@
+import math
 class LinearRegressionFC:
     def __init__(self):
         self.final_weight = []
@@ -20,7 +21,7 @@ class LinearRegressionFC:
             l += 0.5 * pow((y_hat - y[idx]), 2) / len(X)
         return l
 
-    def train(self, X, y, lr, epochs):  # or gradient descent
+    def fit(self, X, y, lr, epochs):  # or gradient descent
         for row in X:
             row.insert(0, 1)
         init_w = [1] * len(X[0])
@@ -32,12 +33,17 @@ class LinearRegressionFC:
                         init_w[idx] = w - (self.h(init_w, row) - y[row_idx]) * lr
                     else:
                         init_w[idx] = w - lr * (self.h(init_w, row) - y[row_idx]) * row[idx]
-            print(self.loss_func(init_w, X, y))
         self.final_weight = init_w
 
     def predict(self, data_point):
-        data_point.insert(1, 0)
         prediction = 0
         for i, feature in enumerate(data_point):
             prediction += self.final_weight[i] * feature
         return prediction
+
+    def evaluate(self, X_val, y_val):
+        rmse = 0
+        for i, row in enumerate(X_val):
+            y_val_predicted = self.predict(row)
+            rmse += pow((y_val[i] - y_val_predicted), 2)
+        return math.sqrt(rmse/len(X_val))

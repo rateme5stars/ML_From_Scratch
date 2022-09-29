@@ -1,6 +1,6 @@
 from algorithms.support.distance import Distance
 
-class KNNWithoutLib:
+class KnnFC:
     def __init__(self, dataset, trainset, distance_method):
         self.dataset = dataset
         self.trainset = trainset
