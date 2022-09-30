@@ -36,5 +36,5 @@ if __name__ == '__main__':
     X_train, X_val = X[:1001], X[1001:]
     y_train, y_val = y[:1001], y[1001:]
     lrfc = LinearRegressionFC()
-    lrfc.fit(X, y, 0.0015, 5)
+    lrfc.fit(X, y, 0.003, 20)
     print(f'RMES of FC:', lrfc.evaluate(X_val, y_val))

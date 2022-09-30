@@ -27,4 +27,26 @@ class KnnFC:
         outputs = [n[-1] for n in neighbors]
         prediction = max(set(outputs), key=outputs.count)
         return prediction
+
+if __name__ == '__main__':
+    import pandas as pd
+    import numpy as np
+    from sklearn import datasets
+
+
+    # from algorithms.from_scratch.knn_fc import KnnFC
+
+    iris = datasets.load_iris()
+    df = pd.DataFrame(data=np.c_[iris['data'], iris['target']],
+                    columns=iris['feature_names'] + ['target'])
+    # X, y = iris.data, iris.target
+    dataset = df.values.tolist()
+    y = []
+    for row in dataset:
+        y.append(row[-1])
+        row.pop()
+
+    knn = KnnFC('euclidean')
+    
+    knn.accuracy(dataset[50:], y[50:])
                                                                                                            
