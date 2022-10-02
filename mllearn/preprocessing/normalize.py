@@ -1,5 +1,6 @@
 import math
 
+
 class Normalize:
     def __init__(self, dataset):
         self.dataset = dataset
@@ -30,14 +31,12 @@ class Normalize:
     def minmax(self, predict_point=None):
         if predict_point is not None:
             for i in range(len(predict_point)):
-                data_point[i] = (data_point[i] - self.min_values[i]) / \
-                    (self.max_values[i] - self.min_values[i])
+                data_point[i] = (data_point[i] - self.min_values[i]) / (self.max_values[i] - self.min_values[i])
             return predict_point
         else:
             for data_point in self.dataset:
                 for i in range(len(data_point)):
-                    data_point[i] = (data_point[i] - self.min_values[i]) / \
-                        (self.max_values[i] - self.min_values[i])
+                    data_point[i] = (data_point[i] - self.min_values[i]) / (self.max_values[i] - self.min_values[i])
             return self.dataset
 
     def standardization(self, predict_point=None):

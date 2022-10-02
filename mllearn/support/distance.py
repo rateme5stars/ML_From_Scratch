@@ -1,5 +1,4 @@
 import math
-
 class Distance:
     # Distance between sample vs specific data point in dataset
     @staticmethod

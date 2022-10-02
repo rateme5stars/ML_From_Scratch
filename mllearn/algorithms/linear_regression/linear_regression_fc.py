@@ -1,9 +1,11 @@
 import math
+
+
 class LinearRegressionFC:
     def __init__(self):
-        self.final_weight = []
+        self.weights = None
 
-    def h(self, W, X_c):
+    def __hypothesis(self, W, X_c):
         '''
         Parameters
         ----------
@@ -14,10 +16,10 @@ class LinearRegressionFC:
             y_hat += W[idx] * feature_value
         return y_hat
 
-    def loss_func(self, W, X, y):
+    def __loss_func(self, W, X, y):
         l = 0
         for idx, row in enumerate(X):
-            y_hat = self.h(W, row)
+            y_hat = self.__hypothesis(W, row)
             l += 0.5 * pow((y_hat - y[idx]), 2) / len(X)
         return l
 
@@ -26,19 +28,20 @@ class LinearRegressionFC:
             row.insert(0, 1)
         init_w = [1] * len(X[0])
 
-        for _ in range(epochs):
+        for i in range(epochs):
             for row_idx, row in enumerate(X):
                 for idx, w in enumerate(init_w):
                     if idx == 0:
-                        init_w[idx] = w - (self.h(init_w, row) - y[row_idx]) * lr
+                        init_w[idx] = w - lr * (self.__hypothesis(init_w, row) - y[row_idx])
                     else:
-                        init_w[idx] = w - lr * (self.h(init_w, row) - y[row_idx]) * row[idx]
-        self.final_weight = init_w
+                        init_w[idx] = w - lr * (self.__hypothesis(init_w, row) - y[row_idx]) * row[idx]
+            # print(f'Epoch {i}, loss: ', self.__loss_func(init_w, X, y))
+        self.weights = init_w
 
     def predict(self, data_point):
         prediction = 0
         for i, feature in enumerate(data_point):
-            prediction += self.final_weight[i] * feature
+            prediction += self.weights[i] * feature
         return prediction
 
     def evaluate(self, X_val, y_val):
