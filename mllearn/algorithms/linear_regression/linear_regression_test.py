@@ -39,7 +39,7 @@ if __name__ == '__main__':
     lrfc = LinearRegressionFC()
     print('--- Linear Regression from scratch test ---')
     lrfc.fit(X, y, 0.003, 10)
-    print(f'RMES of Linear Regression From Scratch:', lrfc.evaluate(X_val, y_val))
+    print(f'RMSE:', lrfc.evaluate(X_val, y_val))
 
     # Compare with Linear Regression from sklearn
     from sklearn import linear_model
@@ -56,4 +56,4 @@ if __name__ == '__main__':
     lr.fit(X_train, y_train)
     y_eval_predict = lr.predict(X_eval)
     rmse = np.sqrt(mean_squared_error(y_eval, y_eval_predict))
-    print('RMSE of Linear Regression of sklearn implementation:', rmse)
+    print('RMSE:', rmse)

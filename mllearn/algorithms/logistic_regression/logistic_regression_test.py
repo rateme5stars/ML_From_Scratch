@@ -23,7 +23,7 @@ def impute_age(cols):
 def data_processing(dataset):
     dataset['Age'] = dataset[['Age', 'Pclass']].apply(impute_age, axis=1)
     dataset['Sex'] = np.where(dataset['Sex'] == 'male', 1, 0)
-    dataset.drop(['PassengerId', 'Name', 'Ticket', 'Cabin', 'Embarked'], axis=1, inplace=True)
+    dataset = dataset.drop(['PassengerId', 'Name', 'Ticket', 'Cabin', 'Embarked'], axis=1)
     return dataset
 
 
@@ -42,4 +42,26 @@ if __name__ == '__main__':
     X_train, X_val = X[:701], X[701:]
     y_train, y_val = y[:701], y[701:]
     logit_reg = LogisticRegressionFC()
-    logit_reg.fit(X_train, y_train, 0.0001, 1)
+    print('--- Logistic Regression from scratch test ---')
+    logit_reg.fit(X_train, y_train, 0.00018, 30)
+    accuracy = logit_reg.evaluation(X_val, y_val)
+    print('Accuracy:', accuracy)
+
+    from sklearn.linear_model import LogisticRegression
+    from sklearn.preprocessing import MinMaxScaler
+    from sklearn.metrics import accuracy_score
+
+    print('\n--- Logistic Regression from sklearn test ---')
+    dataset2 = data_processing(df)
+    minmax_scaler = MinMaxScaler()
+    dataset2 = minmax_scaler.fit_transform(dataset2)
+
+    X_train, X_eval, y_train, y_eval = dataset2[:701, 1:], dataset2[701:, 1:], dataset2[:701, 0], dataset2[701:, 0]
+
+    logit_reg = LogisticRegression()
+    logit_reg.fit(X_train, y_train)
+
+    y_eval_predict = logit_reg.predict(X_eval)
+    accuracy = accuracy_score(y_eval, y_eval_predict)
+
+    print('Accuracy:', accuracy)
